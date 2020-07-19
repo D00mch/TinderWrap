@@ -1,17 +1,20 @@
-package com.livermor.tinderwrap
+package com.livermor.tinderwrap.data
 
-import kotlinx.coroutines.Deferred
+import androidx.core.graphics.drawable.TintAwareDrawable
+import com.livermor.tinderwrap.LikeResponse
+import com.livermor.tinderwrap.Response
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
-object ServiceBuilder {
+class ApiFactory(private val token: String) {
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val request = chain.request()
                 .newBuilder()
-                .header("X-Auth-Token", "c968a6c4-d840-45dc-82f5-7b584996c342")
+                .header("X-Auth-Token", token)
                 .build()
             chain.proceed(request)
         }
@@ -23,12 +26,18 @@ object ServiceBuilder {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun <T> buildService(service: Class<T>): T {
-        return retrofit.create(service)
+    fun get(): TinderApi {
+        return retrofit.create(TinderApi::class.java)
     }
 }
 
 interface TinderApi {
     @GET("recs/core")
     suspend fun getUsers(): Response
+
+    @GET("https://api.gotinder.com/like/{id}")
+    suspend fun like(@Path("id") id: String): LikeResponse
+
+    @GET("https://api.gotinder.com/pass/{id}")
+    suspend fun hate(@Path("id") id: String): LikeResponse
 }
