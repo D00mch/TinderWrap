@@ -8,3 +8,5 @@ Store location
 
 Photos are saved with prefix: 0 - bad, 1 - good.
 For text I have to separate files.
+
+Token is x-auth-token that can be found in request on web version of Tinder.
