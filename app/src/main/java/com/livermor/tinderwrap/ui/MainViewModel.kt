@@ -12,6 +12,7 @@ import com.livermor.tinderwrap.LikeResponse
 import com.livermor.tinderwrap.Photo
 import com.livermor.tinderwrap.UiUser
 import com.livermor.tinderwrap.data.ApiFactory
+import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.data.BioRepository
 import com.livermor.tinderwrap.data.TinderApi
@@ -85,13 +86,10 @@ class MainViewModel(
         errors.postValue(e)
     }
 
-    class Factory(
-        private val token: String,
-        private val context: Context
-    ) : ViewModelProvider.Factory {
+    class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             require(modelClass.isAssignableFrom(MainViewModel::class.java))
-            val api = ApiFactory(token).get()
+            val api = ApiFactory(AppDb.token).get()
             val photoRepo = PhotoRepository(context)
             val bioRepo = BioRepository(context)
             return MainViewModel(api, photoRepo, bioRepo) as T

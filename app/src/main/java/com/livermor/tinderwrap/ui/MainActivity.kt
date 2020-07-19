@@ -18,10 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val compositeAdapter = CompositeDelegateAdapter(PhotoAdapter(), BioAdapter())
 
     private val viewModel by lazy {
-        val factory = MainViewModel.Factory(
-            "9c9ce063-d22d-4d48-b7fd-0489868a27e4",
-            applicationContext
-        )
+        val factory = MainViewModel.Factory(applicationContext)
         ViewModelProvider(this, factory).get(MainViewModel::class.java)
     }
 

@@ -9,7 +9,7 @@ class BioAdapter : ViewBindingDelegateAdapter<Bio, ItemBioBinding>(ItemBioBindin
 
     @SuppressLint("ClickableViewAccessibility")
     override fun ItemBioBinding.onBind(item: Bio) {
-        tvBio.text = if (item.text.isBlank()) "" else item.text
+        tvBio.text = if (item.text.isBlank()) "no bio" else item.text
         vIndicator.setBackgroundColor(
             if (item.isGood) Color.GREEN else Color.RED
         )
