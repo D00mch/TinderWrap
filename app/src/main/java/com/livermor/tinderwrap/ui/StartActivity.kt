@@ -13,9 +13,10 @@ class StartActivity : AppCompatActivity() {
         with(ActivityStartBinding.inflate(layoutInflater)) {
             setContentView(root)
             if (AppDb.token.isNotBlank()) {
-                editTextTextPassword.setText(AppDb.token)
+                etToken.setText(AppDb.token)
             }
             bGo.setOnClickListener {
+                AppDb.token = etToken.text.toString()
                 startActivity(Intent(this@StartActivity, MainActivity::class.java))
             }
         }

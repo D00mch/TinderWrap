@@ -7,7 +7,7 @@
     tools:context=".ui.StartActivity">
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/etToken"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -27,6 +27,6 @@
         android:text="@string/go"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/etToken" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
