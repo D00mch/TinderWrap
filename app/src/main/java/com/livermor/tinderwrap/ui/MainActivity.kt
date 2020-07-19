@@ -12,12 +12,13 @@ import com.livermor.tinderwrap.databinding.ActivityMainBinding
 import com.livermor.tinderwrap.ui.adapter.BioAdapter
 import com.livermor.tinderwrap.ui.adapter.PhotoAdapter
 import com.livermor.tinderwrap.ui.adapter.SwipeCallback
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val compositeAdapter = CompositeDelegateAdapter(PhotoAdapter(), BioAdapter())
 
-    private val viewModel by lazy {
+    private val viewModel: MainViewModel by lazy {
         val factory = MainViewModel.Factory(applicationContext)
         ViewModelProvider(this, factory).get(MainViewModel::class.java)
     }
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         model.feed.observe(this, Observer { compositeAdapter.swapData(it) })
         model.errors.observe(this, Observer { toast(it.toString()) })
         model.noMoreAccounts.observe(this, Observer { toast(it.toString()) })
+        model.age.observe(this, Observer { tvBirth.text = it.toString() })
     }
 
     private fun toast(text: String) {

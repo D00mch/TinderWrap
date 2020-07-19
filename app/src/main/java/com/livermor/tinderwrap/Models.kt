@@ -1,6 +1,7 @@
 package com.livermor.tinderwrap
 
 import kotlinx.collections.immutable.PersistentList
+import java.util.Date
 
 // user
 data class Response(
@@ -20,13 +21,15 @@ data class UserObject(
 data class User(
     val _id: String,
     val bio: String,
-    val photos: List<Photo>
+    val photos: List<Photo>,
+    val birth_date: Date? = null
 )
 
 data class UiUser(
     val id: String,
     val bio: String,
-    val photos: PersistentList<Photo>
+    val photos: PersistentList<Photo>,
+    val birthDate: Date? = null
 )
 
 interface Estimated {

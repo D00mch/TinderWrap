@@ -37,4 +37,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/bNo"
         app:layout_constraintStart_toEndOf="@+id/bNo" />
 
+    <TextView
+        android:id="@+id/tvBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:text="@string/unknown"
+        app:layout_constraintBottom_toBottomOf="@+id/bYes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bYes"
+        app:layout_constraintTop_toTopOf="@+id/bYes" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

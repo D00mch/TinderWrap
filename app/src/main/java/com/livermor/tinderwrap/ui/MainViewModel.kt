@@ -13,13 +13,15 @@ import com.livermor.tinderwrap.Photo
 import com.livermor.tinderwrap.UiUser
 import com.livermor.tinderwrap.data.ApiFactory
 import com.livermor.tinderwrap.data.AppDb
-import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.data.BioRepository
+import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.data.TinderApi
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
+import java.util.Date
+import kotlin.math.floor
 
 class MainViewModel(
     private val api: TinderApi,
@@ -31,6 +33,7 @@ class MainViewModel(
     val feed = MutableLiveData<PersistentList<Estimated>>()
     val noMoreAccounts = MutableLiveData<Boolean>()
     val errors = MutableLiveData<Exception>()
+    val age = MutableLiveData<String>()
 
     init {
         viewModelScope.launch { postNextUser() }
@@ -69,6 +72,7 @@ class MainViewModel(
             noMoreAccounts.postValue(true)
         } else {
             users.first().let { user ->
+                age.postValue(user.birthDate?.toAge() ?: "unknown")
                 val items = (user.photos as PersistentList<Estimated>).add(0, Bio(user.bio))
                 feed.postValue(items)
             }
@@ -77,11 +81,19 @@ class MainViewModel(
 
     private suspend fun requestUsers() = try {
         users = api.getUsers().data.results.map { userObject ->
-            val user = userObject.user
-            UiUser(user._id, photos = user.photos.toPersistentList(), bio = user.bio)
+            userObject.user.run {
+                UiUser(_id, bio, photos = photos.toPersistentList(), birthDate = birth_date)
+            }
         }.toPersistentList()
     } catch (e: Exception) {
         errors.postValue(e)
+    }
+
+    private fun Date.toAge(): String {
+        val now = Date()
+        val timeBetween = now.time - time
+        val yearsBetween = timeBetween / 3.15576e+10
+        return "age: ${floor(yearsBetween).toInt()}"
     }
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
