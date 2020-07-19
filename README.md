@@ -5,3 +5,6 @@ Store location
 ```
 /storage/emulated/0/Android/data/com.livermor.tinderwrap/files/
 ```
+
+Photos are saved with prefix: 0 - bad, 1 - good.
+For text I have to separate files.
