@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        with(binding) {
+            setContentView(root)
 
-        binding.run {
             rvPhotos.run {
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 adapter = compositeAdapter
@@ -37,10 +37,17 @@ class MainActivity : AppCompatActivity() {
             bNo.setOnClickListener { viewModel.update(Message.Choose(like = false)) }
             bYes.setOnClickListener { viewModel.update(Message.Choose(like = true)) }
         }
+        observe(viewModel)
+    }
 
+    private fun observe(model: MainViewModel) {
+        model.feed.observe(this, Observer { compositeAdapter.swapData(it) })
+        model.errors.observe(this, Observer { toast(it.toString()) })
+        model.noMoreAccounts.observe(this, Observer { toast(it.toString()) })
+    }
 
-        viewModel.feed.observe(this, Observer { compositeAdapter.swapData(it) })
-        viewModel.errors.observe(this, Observer { Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show() })
+    private fun toast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }
 

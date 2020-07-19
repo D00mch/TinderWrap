@@ -1,18 +1,13 @@
 package com.livermor.tinderwrap.data
 
-import android.R.attr.path
 import android.content.Context
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import com.livermor.tinderwrap.Bio
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files.newBufferedWriter
-import java.nio.file.StandardOpenOption
 
 class BioRepository(private val context: Context) {
 
@@ -31,7 +26,7 @@ class BioRepository(private val context: Context) {
                 BufferedWriter(FileWriter(textFile, true)).use { bw ->
                     bw.write(bio.text)
                     bw.newLine()
-                    bw.write("@*@*@")
+                    bw.write(SEPARATOR)
                     bw.newLine()
                 }
             } catch (e: IOException) {
@@ -40,5 +35,9 @@ class BioRepository(private val context: Context) {
         } else {
             Log.i(BioRepository::class.java.simpleName, "saveText: unsuccessful")
         }
+    }
+
+    companion object {
+        private const val SEPARATOR = "@*@*@"
     }
 }

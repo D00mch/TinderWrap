@@ -23,7 +23,7 @@ class SwipeCallback(
     override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder) = false
 
     override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
+        error("we are not gonna swipe it out")
     }
 
     override fun convertToAbsoluteDirection(flags: Int, layoutDirection: Int): Int {

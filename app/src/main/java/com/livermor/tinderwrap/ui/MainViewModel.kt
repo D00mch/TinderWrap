@@ -33,9 +33,7 @@ class MainViewModel(
     val errors = MutableLiveData<Exception>()
 
     init {
-        viewModelScope.launch {
-            postNextUser()
-        }
+        viewModelScope.launch { postNextUser() }
     }
 
     fun update(msg: Message) {

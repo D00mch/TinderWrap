@@ -1,11 +1,8 @@
 package com.livermor.tinderwrap.data
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import com.bumptech.glide.Glide
@@ -14,7 +11,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.livermor.tinderwrap.Photo
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 
 class PhotoRepository(private val context: Context) {
 
@@ -40,7 +36,6 @@ class PhotoRepository(private val context: Context) {
     private fun saveImage(image: Bitmap, fileName: String): String? {
         var savedImagePath: String? = null
         val externalPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        Log.i(PhotoRepository::class.java.simpleName, "saveImage: externalPath $externalPath")
         val storageDir = File("$externalPath/Tinder")
         Log.i(PhotoRepository::class.java.simpleName, "saveImage: storageDir $storageDir")
         var success = true

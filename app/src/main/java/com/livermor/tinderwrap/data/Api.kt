@@ -1,6 +1,5 @@
 package com.livermor.tinderwrap.data
 
-import androidx.core.graphics.drawable.TintAwareDrawable
 import com.livermor.tinderwrap.LikeResponse
 import com.livermor.tinderwrap.Response
 import okhttp3.OkHttpClient
