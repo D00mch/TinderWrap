@@ -8,35 +8,41 @@ import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.livermor.tinderwrap.Photo
+import com.livermor.tinderwrap.UiPhoto
+import com.livermor.tinderwrap.factory.Names
 import java.io.File
 import java.io.FileOutputStream
 
-class PhotoRepository(private val context: Context) {
+private const val WIDTH = 320
+private const val HEIGHT = 400
 
-    fun savePhotos(photos: List<Photo>) {
+class PhotoRepository(
+    private val context: Context,
+    private val names: Names
+) {
+
+    fun savePhotos(photos: List<UiPhoto>) {
         photos.forEach { photo ->
             Glide.with(context)
                 .asBitmap()
                 .load(photo.url)
-                .into(object : CustomTarget<Bitmap>(320, 400) {
+                .into(object : CustomTarget<Bitmap>(WIDTH, HEIGHT) {
                     override fun onLoadCleared(placeholder: Drawable?) {
                         Log.i(PhotoRepository::class.java.simpleName, "onLoadCleared")
                     }
 
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         Log.i(PhotoRepository::class.java.simpleName, "about to save image")
-                        val prefix = if (photo.isGood) 1 else 0
-                        saveImage(resource, "$prefix${photo.id}.jpg")
+                        saveImage(resource, names.get(photo), RepoConst.FOLDER_WITH_NEUTRAL)
                     }
                 })
         }
     }
 
-    private fun saveImage(image: Bitmap, fileName: String): String? {
+    private fun saveImage(image: Bitmap, fileName: String, folder: String): String? {
         var savedImagePath: String? = null
         val externalPath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val storageDir = File("$externalPath/Tinder")
+        val storageDir = File("$externalPath/$folder")
         Log.i(PhotoRepository::class.java.simpleName, "saveImage: storageDir $storageDir")
         var success = true
         if (!storageDir.exists()) {

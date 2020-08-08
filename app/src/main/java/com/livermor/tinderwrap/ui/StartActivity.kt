@@ -2,6 +2,7 @@ package com.livermor.tinderwrap.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.databinding.ActivityStartBinding
@@ -20,5 +21,15 @@ class StartActivity : AppCompatActivity() {
                 startActivity(Intent(this@StartActivity, MainActivity::class.java))
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(StartActivity::class.java.simpleName, "onPause: ")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i(StartActivity::class.java.simpleName, "onStop: ")
     }
 }

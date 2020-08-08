@@ -9,13 +9,15 @@ import androidx.lifecycle.viewModelScope
 import com.livermor.tinderwrap.Bio
 import com.livermor.tinderwrap.Estimated
 import com.livermor.tinderwrap.LikeResponse
-import com.livermor.tinderwrap.Photo
+import com.livermor.tinderwrap.UiPhoto
 import com.livermor.tinderwrap.UiUser
 import com.livermor.tinderwrap.data.ApiFactory
 import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.data.BioRepository
 import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.data.TinderApi
+import com.livermor.tinderwrap.factory.NamesImpl
+import com.livermor.tinderwrap.factory.swipe
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -50,7 +52,7 @@ class MainViewModel(
                     }
                     Log.i(MainViewModel::class.java.simpleName, "update: response $resp")
 
-                    photoRepository.savePhotos(estimated.filterIsInstance(Photo::class.java))
+                    photoRepository.savePhotos(estimated.filterIsInstance(UiPhoto::class.java))
                     bioRepository.saveBio(estimated.first() as Bio)
 
                     users = users.removeAt(0)
@@ -59,7 +61,7 @@ class MainViewModel(
             }
             is Message.Swipe -> {
                 var currentPhotos = estimated
-                val updatedPhoto = currentPhotos[msg.position].rate(isGood = !msg.isLeft) // O(1)
+                val updatedPhoto = currentPhotos[msg.position].swipe(isLeft = msg.isLeft) // O(1)
                 currentPhotos = currentPhotos.set(msg.position, updatedPhoto) // O(1)
                 feed.value = currentPhotos
             }
@@ -82,7 +84,8 @@ class MainViewModel(
     private suspend fun requestUsers() = try {
         users = api.getUsers().data.results.map { userObject ->
             userObject.user.run {
-                UiUser(_id, bio, photos = photos.toPersistentList(), birthDate = birth_date)
+                val uiPhotos = photos.map { UiPhoto(id = it.id, url = it.url) }.toPersistentList()
+                UiUser(_id, bio, photos = uiPhotos, birthDate = birth_date)
             }
         }.toPersistentList()
     } catch (e: Exception) {
@@ -100,8 +103,8 @@ class MainViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             require(modelClass.isAssignableFrom(MainViewModel::class.java))
             val api = ApiFactory(AppDb.token).get()
-            val photoRepo = PhotoRepository(context)
-            val bioRepo = BioRepository(context)
+            val photoRepo = PhotoRepository(context, NamesImpl)
+            val bioRepo = BioRepository(context, NamesImpl)
             return MainViewModel(api, photoRepo, bioRepo) as T
         }
     }

@@ -4,23 +4,27 @@ import android.content.Context
 import android.os.Environment
 import android.util.Log
 import com.livermor.tinderwrap.Bio
+import com.livermor.tinderwrap.factory.Names
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 
-class BioRepository(private val context: Context) {
+class BioRepository(
+    private val context: Context,
+    private val names: Names
+) {
 
     fun saveBio(bio: Bio) {
 
         val externalPath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-        val storageDir = File("$externalPath/Tinder")
+        val storageDir = File("$externalPath/${RepoConst.FOLDER_WITH_NEUTRAL}")
         var success = true
         if (!storageDir.exists()) {
             success = storageDir.mkdirs()
         }
         if (success) {
-            val fileName = if (bio.isGood) "good.txt" else "awful.txt"
+            val fileName = names.get(bio)
             val textFile = File(storageDir, fileName)
             try {
                 BufferedWriter(FileWriter(textFile, true)).use { bw ->

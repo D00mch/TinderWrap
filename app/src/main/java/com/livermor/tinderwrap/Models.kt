@@ -28,28 +28,32 @@ data class User(
 data class UiUser(
     val id: String,
     val bio: String,
-    val photos: PersistentList<Photo>,
+    val photos: PersistentList<UiPhoto>,
     val birthDate: Date? = null
 )
 
 interface Estimated {
-    val isGood: Boolean
-    fun rate(isGood: Boolean): Estimated
+    val type: Type
+    fun rate(type: Type): Estimated
+
+    enum class Type { BAD, GOOD, NEUTRAL }
 }
 
-data class Photo(
+data class Photo(val id: String, val url: String)
+
+data class UiPhoto(
     val id: String,
     val url: String,
-    override val isGood: Boolean = false
+    override val type: Estimated.Type = Estimated.Type.NEUTRAL
 ) : Estimated {
-    override fun rate(isGood: Boolean) = copy(isGood = isGood)
+    override fun rate(type: Estimated.Type): Estimated = copy(type = type)
 }
 
 data class Bio(
     val text: String,
-    override val isGood: Boolean = false
+    override val type: Estimated.Type = Estimated.Type.NEUTRAL
 ) : Estimated {
-    override fun rate(isGood: Boolean): Estimated = copy(isGood = isGood)
+    override fun rate(type: Estimated.Type): Estimated = copy(type = type)
 }
 
 // likes
