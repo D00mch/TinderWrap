@@ -1,8 +1,10 @@
 package com.livermor.tinderwrap.factory
 
 import android.graphics.Color
+import android.util.Log
 import androidx.annotation.ColorInt
 import com.livermor.tinderwrap.Estimated
+import com.livermor.tinderwrap.ui.screen.StartActivity
 
 fun Estimated.swipeLeft(): Estimated = when (this.type) {
     Estimated.Type.BAD -> this
@@ -29,4 +31,15 @@ fun Estimated.Type.prefix(): Int = when (this) {
     Estimated.Type.BAD -> 0
     Estimated.Type.GOOD -> 1
     Estimated.Type.NEUTRAL -> 2
+}
+
+fun Int.toType(): Estimated.Type = when (this) {
+    0 -> Estimated.Type.BAD
+    1 -> Estimated.Type.GOOD
+    2 -> Estimated.Type.NEUTRAL
+    else -> error("unknown type $this")
+}
+
+fun String.toType(): Estimated.Type {
+    return Integer.parseInt(this.first().toString()).toType()
 }

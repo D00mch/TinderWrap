@@ -2,6 +2,7 @@
     <string name="app_name">TinderWrap</string>
     <string name="photo">photo</string>
     <string name="add_tinder_token">add tinder token</string>
-    <string name="go">GO</string>
+    <string name="go_swipe">Go swipe</string>
+    <string name="go_fix">go fix</string>
     <string name="unknown">unknown</string>
 </resources>

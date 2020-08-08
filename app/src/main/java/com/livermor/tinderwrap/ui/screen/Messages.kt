@@ -1,8 +1,7 @@
 package com.livermor.tinderwrap.ui.screen
 
-
-sealed class Message {
-
-    class Choose(val like: Boolean) : Message()
-    class Swipe(val isLeft: Boolean, val position: Int): Message()
+sealed class SwapMessage {
+    class Choose(val like: Boolean) : SwapMessage()
+    class Swipe(val isLeft: Boolean, val position: Int) : SwapMessage()
+    object Next : SwapMessage()
 }

@@ -7,6 +7,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.livermor.tinderwrap.UiPhoto
 import com.livermor.tinderwrap.databinding.ItemPhotoBinding
+import com.livermor.tinderwrap.factory.GlideFactory
 import com.livermor.tinderwrap.factory.color
 
 class PhotoAdapter() : ViewBindingDelegateAdapter<UiPhoto, ItemPhotoBinding>(ItemPhotoBinding::inflate) {
@@ -18,7 +19,7 @@ class PhotoAdapter() : ViewBindingDelegateAdapter<UiPhoto, ItemPhotoBinding>(Ite
         Glide
             .with(context)
             .load(item.url)
-            .apply(requestOptions)
+            .apply(GlideFactory.requestOptions)
             .into(ivPhoto)
 
         vIndicator.setBackgroundColor(item.type.color())
@@ -26,8 +27,4 @@ class PhotoAdapter() : ViewBindingDelegateAdapter<UiPhoto, ItemPhotoBinding>(Ite
 
     override fun isForViewType(item: Any) = item is UiPhoto
     override fun UiPhoto.getItemId() = id
-
-    companion object {
-        private val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL)
-    }
 }

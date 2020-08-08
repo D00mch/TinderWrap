@@ -5,15 +5,15 @@ import com.livermor.tinderwrap.Estimated
 import com.livermor.tinderwrap.UiPhoto
 
 interface Names {
-    fun get(photo: UiPhoto): String
+    fun get(photo: UiPhoto, drop: Int = 0): String
     fun get(bio: Bio): String
 }
 
 object NamesImpl : Names {
 
-    override fun get(photo: UiPhoto): String {
+    override fun get(photo: UiPhoto, drop: Int): String {
         val prefix = photo.type.prefix()
-        return "$prefix${photo.id}.jpg"
+        return "$prefix${photo.id.drop(n = drop)}.jpg"
     }
 
     override fun get(bio: Bio): String = when (bio.type) {

@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.livermor.tinderwrap.ui.screen.Message
+import com.livermor.tinderwrap.ui.screen.SwapMessage
 
 class SwipeCallback(
-    private val onSwipe: (Message.Swipe) -> Unit
+    private val onSwipe: (SwapMessage.Swipe) -> Unit
 ) : ItemTouchHelper.Callback() {
 
     private val swipeWidth = 150
@@ -53,8 +53,8 @@ class SwipeCallback(
             swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
             if (swipeBack) {
                 when {
-                    dX < -swipeWidth -> onSwipe(Message.Swipe(true, viewHolder.adapterPosition))
-                    dX > swipeWidth -> onSwipe(Message.Swipe(false, viewHolder.adapterPosition))
+                    dX < -swipeWidth -> onSwipe(SwapMessage.Swipe(true, viewHolder.adapterPosition))
+                    dX > swipeWidth -> onSwipe(SwapMessage.Swipe(false, viewHolder.adapterPosition))
                 }
             }
             false
