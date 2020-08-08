@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.math.floor
 
-class SwapViewModel(
+class SwipeViewModel(
     private val api: TinderApi,
     private val photoRepository: PhotoRepository,
     private val bioRepository: BioRepository
@@ -46,7 +46,7 @@ class SwapViewModel(
                         msg.like -> api.like(users.first().id)
                         else -> api.hate(users.first().id)
                     }
-                    Log.i(SwapViewModel::class.java.simpleName, "update: response $resp")
+                    Log.i(SwipeViewModel::class.java.simpleName, "update: response $resp")
 
                     photoRepository.saveCheckedPhotos(estimated.filterIsInstance(UiPhoto::class.java))
                     bioRepository.saveBio(estimated.first() as Bio)

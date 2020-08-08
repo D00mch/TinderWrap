@@ -9,7 +9,7 @@ import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.data.BioRepository
 import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.ui.screen.fix.FixViewModel
-import com.livermor.tinderwrap.ui.screen.swap.SwapViewModel
+import com.livermor.tinderwrap.ui.screen.swap.SwipeViewModel
 
 object ViewModelsFactory {
 
@@ -17,14 +17,14 @@ object ViewModelsFactory {
     val photoRepo by lazy { PhotoRepository(TinderApp.instance, NamesImpl) }
     val bioRepo by lazy { BioRepository(TinderApp.instance, NamesImpl) }
 
-    fun swapModel(storeOwner: ViewModelStoreOwner): SwapViewModel {
+    fun swapModel(storeOwner: ViewModelStoreOwner): SwipeViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                require(modelClass.isAssignableFrom(SwapViewModel::class.java))
-                return SwapViewModel(api, photoRepo, bioRepo) as T
+                require(modelClass.isAssignableFrom(SwipeViewModel::class.java))
+                return SwipeViewModel(api, photoRepo, bioRepo) as T
             }
         }
-        return ViewModelProvider(storeOwner, factory).get(SwapViewModel::class.java)
+        return ViewModelProvider(storeOwner, factory).get(SwipeViewModel::class.java)
     }
 
     fun fixModel(storeOwner: ViewModelStoreOwner): FixViewModel {

@@ -8,21 +8,21 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.livermor.delegateadapter.delegate.CompositeDelegateAdapter
-import com.livermor.tinderwrap.databinding.ActivityMainBinding
+import com.livermor.tinderwrap.databinding.ActivitySwipeBinding
 import com.livermor.tinderwrap.factory.ViewModelsFactory
 import com.livermor.tinderwrap.ui.adapter.BioAdapter
 import com.livermor.tinderwrap.ui.adapter.PhotoAdapter
 import com.livermor.tinderwrap.ui.adapter.SwipeCallback
 import com.livermor.tinderwrap.ui.screen.SwapMessage
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_swipe.*
 
 private const val TAG = "SwapActivity"
 
 class SwapActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivitySwipeBinding.inflate(layoutInflater) }
     private val compositeAdapter = CompositeDelegateAdapter(PhotoAdapter(), BioAdapter())
 
-    private val viewModel: SwapViewModel by lazy { ViewModelsFactory.swapModel(this) }
+    private val viewModel: SwipeViewModel by lazy { ViewModelsFactory.swapModel(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class SwapActivity : AppCompatActivity() {
         observe(viewModel)
     }
 
-    private fun observe(model: SwapViewModel) {
+    private fun observe(model: SwipeViewModel) {
         model.feed.observe(this, Observer { compositeAdapter.swapData(it) })
         model.errors.observe(this, Observer {
             Log.e(TAG, "observe: error $it")
