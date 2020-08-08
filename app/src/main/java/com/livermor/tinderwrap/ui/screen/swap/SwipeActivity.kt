@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.livermor.tinderwrap.ui.adapter.PhotoAdapter
 import com.livermor.tinderwrap.ui.adapter.SwipeCallback
 import com.livermor.tinderwrap.ui.screen.SwapMessage
 import kotlinx.android.synthetic.main.activity_swipe.*
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 private const val TAG = "SwapActivity"
 
@@ -35,6 +37,7 @@ class SwapActivity : AppCompatActivity() {
                 val swipeCallback = SwipeCallback(viewModel::update)
                 val itemTouchHelper = ItemTouchHelper(swipeCallback)
                 itemTouchHelper.attachToRecyclerView(this)
+                OverScrollDecoratorHelper.setUpOverScroll(this, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
             }
             bNo.setOnClickListener { viewModel.update(SwapMessage.Choose(like = false)) }
             bYes.setOnClickListener { viewModel.update(SwapMessage.Choose(like = true)) }
@@ -50,6 +53,7 @@ class SwapActivity : AppCompatActivity() {
         })
         model.noMoreAccounts.observe(this, Observer { toast(it.toString()) })
         model.age.observe(this, Observer { tvBirth.text = it.toString() })
+        model.progress.observe(this, Observer { pbLoading.isVisible = it })
     }
 
     private fun toast(text: String) {

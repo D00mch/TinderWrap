@@ -34,7 +34,7 @@ class SwipeViewModel(
     val age = MutableLiveData<String>()
 
     init {
-        viewModelScope.launch { postNextUser() }
+        withProgress { postNextUser() }
     }
 
     fun update(msg: SwapMessage): Unit {

@@ -13,17 +13,36 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@android:color/black"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
 
     <Button
         android:id="@+id/bNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
         android:text="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -32,7 +51,7 @@
         android:id="@+id/bYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="20dp"
         android:text="yes"
         app:layout_constraintBottom_toBottomOf="@+id/bNo"
         app:layout_constraintStart_toEndOf="@+id/bNo" />
@@ -42,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:textColor="@android:color/white"
         android:text="@string/unknown"
         app:layout_constraintBottom_toBottomOf="@+id/bYes"
         app:layout_constraintEnd_toEndOf="parent"
