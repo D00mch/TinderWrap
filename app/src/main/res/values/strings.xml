@@ -5,4 +5,5 @@
     <string name="go_swipe">Go swipe</string>
     <string name="go_fix">go fix</string>
     <string name="unknown">unknown</string>
+    <string name="fix_photos_count">fix photos count</string>
 </resources>

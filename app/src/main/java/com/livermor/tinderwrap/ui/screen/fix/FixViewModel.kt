@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.livermor.tinderwrap.UiPhoto
+import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.factory.swipe
 import com.livermor.tinderwrap.ui.screen.SwapMessage
@@ -18,8 +19,9 @@ class FixViewModel(
     private val photoRepository: PhotoRepository
 ) : BaseViewModel() {
 
+    private val count = AppDb.fixSize
+
     private var position = AtomicInteger(0)
-    private val count = 1
     val feed = MutableLiveData<PersistentList<UiPhoto>>()
     val end = MutableLiveData<Boolean>()
 
