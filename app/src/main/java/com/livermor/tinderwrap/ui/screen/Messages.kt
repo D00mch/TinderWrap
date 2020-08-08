@@ -1,4 +1,4 @@
-package com.livermor.tinderwrap.ui
+package com.livermor.tinderwrap.ui.screen
 
 
 sealed class Message {

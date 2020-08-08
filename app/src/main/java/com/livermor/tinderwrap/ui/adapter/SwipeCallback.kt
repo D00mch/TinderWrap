@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.livermor.tinderwrap.ui.Message
+import com.livermor.tinderwrap.ui.screen.Message
 
 class SwipeCallback(
     private val onSwipe: (Message.Swipe) -> Unit

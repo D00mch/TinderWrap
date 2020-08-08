@@ -1,4 +1,4 @@
-package com.livermor.tinderwrap.ui
+package com.livermor.tinderwrap.ui.screen
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.databinding.ActivityStartBinding
+import com.livermor.tinderwrap.ui.screen.swap.SwapActivity
 
 class StartActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class StartActivity : AppCompatActivity() {
             }
             bGo.setOnClickListener {
                 AppDb.token = etToken.text.toString()
-                startActivity(Intent(this@StartActivity, MainActivity::class.java))
+                startActivity(Intent(this@StartActivity, SwapActivity::class.java))
             }
         }
     }

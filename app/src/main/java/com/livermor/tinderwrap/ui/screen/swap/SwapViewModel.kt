@@ -1,4 +1,4 @@
-package com.livermor.tinderwrap.ui
+package com.livermor.tinderwrap.ui.screen.swap
 
 import android.content.Context
 import android.util.Log
@@ -18,6 +18,7 @@ import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.data.TinderApi
 import com.livermor.tinderwrap.factory.NamesImpl
 import com.livermor.tinderwrap.factory.swipe
+import com.livermor.tinderwrap.ui.screen.Message
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import kotlin.math.floor
 
-class MainViewModel(
+class SwapViewModel(
     private val api: TinderApi,
     private val photoRepository: PhotoRepository,
     private val bioRepository: BioRepository
@@ -50,7 +51,7 @@ class MainViewModel(
                         msg.like -> api.like(users.first().id)
                         else -> api.hate(users.first().id)
                     }
-                    Log.i(MainViewModel::class.java.simpleName, "update: response $resp")
+                    Log.i(SwapViewModel::class.java.simpleName, "update: response $resp")
 
                     photoRepository.savePhotos(estimated.filterIsInstance(UiPhoto::class.java))
                     bioRepository.saveBio(estimated.first() as Bio)
@@ -101,11 +102,11 @@ class MainViewModel(
 
     class Factory(private val context: Context) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            require(modelClass.isAssignableFrom(MainViewModel::class.java))
+            require(modelClass.isAssignableFrom(SwapViewModel::class.java))
             val api = ApiFactory(AppDb.token).get()
             val photoRepo = PhotoRepository(context, NamesImpl)
             val bioRepo = BioRepository(context, NamesImpl)
-            return MainViewModel(api, photoRepo, bioRepo) as T
+            return SwapViewModel(api, photoRepo, bioRepo) as T
         }
     }
 }
