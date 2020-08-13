@@ -50,6 +50,13 @@ class FixActivity : AppCompatActivity() {
         model.feed.observe(this, Observer { compositeAdapter.swapData(it) })
         model.progress.observe(this, Observer { bindings.pbLoading.isVisible = it })
         model.end.observe(this, Observer { Toast.makeText(this, "No more photos", Toast.LENGTH_LONG).show() })
+        model.next.observe(this, Observer {
+            with(bindings) {
+                val lm = rvPhotos.layoutManager as LinearLayoutManager
+                val pos = lm.findFirstVisibleItemPosition()
+                lm.scrollToPosition(pos + 1)
+            }
+        })
     }
 
     companion object {

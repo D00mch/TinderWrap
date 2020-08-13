@@ -25,6 +25,7 @@ class FixViewModel(
 
     val feed = MutableLiveData<PersistentList<UiPhoto>>()
     val end = MutableLiveData<Boolean>()
+    val next = MutableLiveData<Unit>()
 
     init {
         withProgress { requestNextPhotos() }
@@ -35,6 +36,7 @@ class FixViewModel(
             is SwapMessage.Swipe -> {
                 val photos = feed.value!!
                 val updatedPhoto = photos[msg.position].swipe(isLeft = msg.isLeft)
+                if (fixingType != FixingType.ALL) next.value = Unit
                 feed.value = photos.set(msg.position, updatedPhoto as UiPhoto)
             }
             is SwapMessage.Next -> viewModelScope.launch {
