@@ -23,7 +23,8 @@ class StartActivity : AppCompatActivity() {
 
     private fun setUpFixScreenButton() = with(bindings) {
         etGoFix.setText(AppDb.fixSize.toString())
-        bGoFix.setOnClickListener {
+
+        fun openFixScreen(type: FixingType) {
             AppDb.fixSize = try {
                 Integer.parseInt(etGoFix.text.toString())
             } catch (e: Exception) {
@@ -33,8 +34,12 @@ class StartActivity : AppCompatActivity() {
                 ).show()
                 AppDb.fixSize
             }
-            startActivity(Intent(this@StartActivity, FixActivity::class.java))
+            startActivity(FixActivity.startIntent(type, this@StartActivity))
         }
+
+        bGoFix.setOnClickListener { openFixScreen(FixingType.ALL) }
+        bGoFixBad.setOnClickListener { openFixScreen(FixingType.BAD) }
+        bGoFixGood.setOnClickListener { openFixScreen(FixingType.GOOD) }
     }
 
     private fun setUpSwapScreenButton() = with(bindings) {

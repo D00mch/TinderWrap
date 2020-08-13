@@ -3,25 +3,26 @@ package com.livermor.tinderwrap.ui.screen.fix
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.livermor.tinderwrap.Estimated
 import com.livermor.tinderwrap.UiPhoto
 import com.livermor.tinderwrap.data.AppDb
 import com.livermor.tinderwrap.data.PhotoRepository
 import com.livermor.tinderwrap.factory.swipe
+import com.livermor.tinderwrap.ui.screen.FixingType
 import com.livermor.tinderwrap.ui.screen.SwapMessage
 import com.livermor.tinderwrap.ui.viewmodel.BaseViewModel
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicInteger
 
 class FixViewModel(
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val fixingType: FixingType
 ) : BaseViewModel() {
 
     private val count = AppDb.fixSize
 
-    private var position = AtomicInteger(0)
     val feed = MutableLiveData<PersistentList<UiPhoto>>()
     val end = MutableLiveData<Boolean>()
 
@@ -38,7 +39,7 @@ class FixViewModel(
             }
             is SwapMessage.Next -> viewModelScope.launch {
                 withProgress {
-                    persistCurrentPhotos()
+                    moveCurrentPhotosToChecked()
                     requestNextPhotos()
                 }
             }.let { Unit }
@@ -47,19 +48,26 @@ class FixViewModel(
     }
 
     @WorkerThread
-    private fun persistCurrentPhotos() {
+    private fun moveCurrentPhotosToChecked() {
         photoRepository.movePhotosToChecked(feed.value!!)
     }
 
     @WorkerThread
     private fun requestNextPhotos() {
-        val photos = photoRepository.getPhotos(position.get(), count)
+        val photos = photoRepository.getPhotos(count, filterType(fixingType))
         if (photos.isEmpty()) {
             end.postValue(true)
             feed.postValue(persistentListOf())
         } else {
             feed.postValue(photos.toPersistentList())
-            position.set(position.get() + count)
+        }
+    }
+
+    private fun filterType(type: FixingType): (UiPhoto) -> Boolean = { uiPhoto ->
+        when (fixingType) {
+            FixingType.GOOD -> uiPhoto.type == Estimated.Type.GOOD
+            FixingType.BAD -> uiPhoto.type == Estimated.Type.BAD
+            else -> true
         }
     }
 }

@@ -52,4 +52,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etGoFix" />
 
+    <Button
+        android:id="@+id/bGoFixBad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fix_bad"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/bGoFix"
+        app:layout_constraintTop_toTopOf="@+id/bGoFix" />
+
+    <Button
+        android:id="@+id/b_go_fix_good"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fix_good"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toEndOf="@+id/bGoFix"
+        app:layout_constraintTop_toTopOf="@+id/bGoFix" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

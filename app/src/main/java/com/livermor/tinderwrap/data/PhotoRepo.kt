@@ -54,15 +54,19 @@ class PhotoRepository(
         }
     }
 
-    fun getPhotos(from: Int, count: Int): List<UiPhoto> {
+    fun getPhotos(count: Int, predicate: (UiPhoto) -> Boolean): List<UiPhoto> {
         val path = "$externalPath/${RepoConst.FOLDER}"
         Log.d(TAG, "getPhotos: path $path")
         val directory = File(path)
         val files = directory.listFiles()
         Log.d(TAG, "getPhotos: size ${files?.size ?: 0}")
-        return files?.drop(from)?.take(count)?.map { file ->
-            UiPhoto(id = file.name, url = file.absolutePath, type = file.name.toType())
-        } ?: emptyList()
+        return files
+            ?.map { file ->
+                UiPhoto(id = file.name, url = file.absolutePath, type = file.name.toType())
+            }
+            ?.filter { predicate(it) }
+            ?.take(count)
+            ?: emptyList()
     }
 
     private fun savePhotos(photos: List<UiPhoto>, folder: String) = photos.forEach { photo ->

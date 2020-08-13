@@ -6,4 +6,6 @@
     <string name="go_fix">go fix</string>
     <string name="unknown">unknown</string>
     <string name="fix_photos_count">fix photos count</string>
+    <string name="fix_bad">fix bad</string>
+    <string name="fix_good">fix good</string>
 </resources>

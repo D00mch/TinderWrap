@@ -5,3 +5,9 @@ sealed class SwapMessage {
     class Swipe(val isLeft: Boolean, val position: Int) : SwapMessage()
     object Next : SwapMessage()
 }
+
+enum class FixingType {
+    GOOD,
+    BAD,
+    ALL
+}
