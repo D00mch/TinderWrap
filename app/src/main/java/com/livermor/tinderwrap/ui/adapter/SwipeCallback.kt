@@ -2,11 +2,14 @@ package com.livermor.tinderwrap.ui.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Canvas
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.livermor.tinderwrap.R
+import com.livermor.tinderwrap.TinderApp
 import com.livermor.tinderwrap.ui.screen.SwapMessage
 
 class SwipeCallback(
@@ -15,6 +18,7 @@ class SwipeCallback(
 
     private val swipeWidth = 150
     private var swipeBack = false
+    private val mp: MediaPlayer by lazy { MediaPlayer.create(TinderApp.instance, R.raw.drip2) }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
         return makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
@@ -53,11 +57,21 @@ class SwipeCallback(
             swipeBack = event.action == MotionEvent.ACTION_CANCEL || event.action == MotionEvent.ACTION_UP
             if (swipeBack) {
                 when {
-                    dX < -swipeWidth -> onSwipe(SwapMessage.Swipe(true, viewHolder.adapterPosition))
-                    dX > swipeWidth -> onSwipe(SwapMessage.Swipe(false, viewHolder.adapterPosition))
+                    dX < -swipeWidth -> {
+                        onSwipe(SwapMessage.Swipe(true, viewHolder.adapterPosition))
+                        playSound()
+                    }
+                    dX > swipeWidth -> {
+                        onSwipe(SwapMessage.Swipe(false, viewHolder.adapterPosition))
+                        playSound()
+                    }
                 }
             }
             false
         }
+    }
+
+    private fun playSound() {
+        mp.start()
     }
 }
