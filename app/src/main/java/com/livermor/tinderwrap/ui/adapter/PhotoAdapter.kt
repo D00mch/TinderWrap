@@ -3,6 +3,7 @@ package com.livermor.tinderwrap.ui.adapter
 import android.annotation.SuppressLint
 import android.util.Log
 import com.bumptech.glide.Glide
+import com.livermor.delegateadapter.delegate.ViewBindingDelegateAdapter
 import com.livermor.tinderwrap.UiPhoto
 import com.livermor.tinderwrap.databinding.ItemPhotoBinding
 import com.livermor.tinderwrap.factory.GlideFactory

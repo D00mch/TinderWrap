@@ -1,6 +1,7 @@
 package com.livermor.tinderwrap.ui.adapter
 
 import android.annotation.SuppressLint
+import com.livermor.delegateadapter.delegate.ViewBindingDelegateAdapter
 import com.livermor.tinderwrap.Bio
 import com.livermor.tinderwrap.databinding.ItemBioBinding
 import com.livermor.tinderwrap.factory.color
